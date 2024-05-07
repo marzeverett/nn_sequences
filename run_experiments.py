@@ -14,6 +14,7 @@ from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 import time
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score
 import matplotlib.pyplot as plt
 config = ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.9
@@ -32,7 +33,7 @@ for device in gpu_devices:
 #https://stackoverflow.com/questions/59963911/how-to-write-a-custom-f1-loss-function-with-weighted-average-for-keras
 #And here:
 #https://github.com/tensorflow/tensorflow/issues/29799
-
+#Dice loss function taken directly from here: #https://stackoverflow.com/questions/59292992/tensorflow-2-custom-loss-no-gradients-provided-for-any-variable-error  
 
 loss_dict = {
     "mape": tf.keras.losses.MeanAbsolutePercentageError(),
@@ -47,20 +48,37 @@ loss_dict = {
     "TrueNegatives": tf.keras.metrics.TrueNegatives(),
     "FalsePositives": tf.keras.metrics.FalsePositives(),
     "FalseNegatives":  tf.keras.metrics.FalseNegatives(),
-    "F1Score": tf.keras.metrics.F1Score()
+    "Dice": tf.keras.losses.Dice(),
+    #"F1Score": tf.keras.metrics.F1Score()
 }
 
+# @tf.function
+# def custom_f1_score(y_true, y_pred):
+#     #Function taken directly from here: 
+#     #https://github.com/tensorflow/tensorflow/issues/29799 
+#     #y_true = K.flatten(y_true)
+#     #y_pred = K.flatten(y_pred)
+#     y_true_array = y_true.numpy()
+#     y_pred_array = y_pred.numpy()
+#     f1_score_metric = f1_score(y_true, y_pred)
+#     return tf.convert_to_tensor(f1_score_metric, dtype=tf.float32)
 
 
-
-
+#https://stackoverflow.com/questions/59292992/tensorflow-2-custom-loss-no-gradients-provided-for-any-variable-error 
 @tf.function
 def dice_loss(y_true, y_pred):
-    #Function taken directly from here: 
-    #https://github.com/tensorflow/tensorflow/issues/29799 
-    y_true = K.flatten(y_true)
-    y_pred = K.flatten(y_pred)
-    return 1 - (2 * (K.sum(y_true * y_pred)+ K.epsilon()) / (K.sum(y_true) + K.sum(y_pred) + K.epsilon()))
+    y_true = tf.cast(y_true, tf.float32)
+    numerator = 2 * tf.reduce_sum(y_true * y_pred)
+    denominator = tf.reduce_sum(y_true + y_pred)
+    return 1 - numerator / denominator
+
+# @tf.function
+# def dice_loss(y_true, y_pred):
+#     #Function taken directly from here: 
+#     #https://github.com/tensorflow/tensorflow/issues/29799 
+#     y_true = K.flatten(y_true)
+#     y_pred = K.flatten(y_pred)
+#     return 1 - (2 * (K.sum(y_true * y_pred)+ K.epsilon()) / (K.sum(y_true) + K.sum(y_pred) + K.epsilon()))
 
 def compile_model(model):
 
@@ -68,7 +86,8 @@ def compile_model(model):
 
     model.compile(
         optimizer="adam",
-        loss= loss_dict['F1Score'],
+        #loss= dice_loss,
+        loss= loss_dict['Dice'],
         metrics=[loss_dict['BinaryAccuracy'], 
                 loss_dict['TruePositives'],
                 loss_dict['TrueNegatives'],
