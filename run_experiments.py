@@ -68,7 +68,7 @@ def compile_model(model):
 
     model.compile(
         optimizer="adam",
-        loss= loss_dict['F1Score']
+        loss= loss_dict['F1Score'],
         metrics=[loss_dict['BinaryAccuracy'], 
                 loss_dict['TruePositives'],
                 loss_dict['TrueNegatives'],
