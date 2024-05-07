@@ -27,6 +27,6 @@ A repo for exploring sequence analysis with neural network based approaches.
 * experiment_name: Name of the experiment to run (Note -- if providing multiple experiments, the index of each is assumed to be the experiment name and added afterward.)
 
 
-## TODO
-* Run and see if F1 supported on other CPU 
-* Run several experiments on differment models for frost prediction 
+## Notes
+* Runs 1-12 Used Dice Loss
+* Runs 13-24 Used Binary Cross Entropy 
