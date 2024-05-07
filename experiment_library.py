@@ -66,7 +66,8 @@ def dice_coef(y_true, y_pred, smooth=100):
 def compile_model(model):
     model.compile(
         optimizer="adam",
-        loss= dice_loss,
+        #loss= dice_loss,
+        loss= loss_dict["BinaryCrossentropy"],
         metrics=[loss_dict['BinaryAccuracy'], 
                 loss_dict['TruePositives'],
                 loss_dict['TrueNegatives'],
