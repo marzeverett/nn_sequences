@@ -8,7 +8,6 @@ param_dict =  {
         "consequent_key": "delta_frost_events",
         "epochs": 3,
         "batch_size": 32, 
-        "sequence": True,
         "sequence_limit": 240,
         "sequence_offset": 36,
         "model_name": "test_model",
