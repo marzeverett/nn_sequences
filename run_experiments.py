@@ -1,6 +1,9 @@
 
 import pickle
 import os
+import numpy as np 
+import pandas as pd
+
 os.environ['TF_CPP_MIN_LOG_LEVEL']  = '3'
 import tensorflow as tf
 #import tensorflow_addons as tfa 
@@ -21,6 +24,7 @@ gpu_devices = tf.config.experimental.list_physical_devices("GPU")
 tf.config.experimental_run_functions_eagerly(True)
 for device in gpu_devices:
     tf.config.experimental.set_memory_growth(device, True)
+
 
 #I got help creating a custom metric from this article:
 #https://medium.com/@balochdanish9980/deep-learning-writing-custom-loss-function-and-metric-function-in-tensorflow-806b6306603c 
@@ -132,16 +136,43 @@ def evaluate_model(model, test_input, test_output):
     final_metrics['f1_score'] = f1_score
     return final_metrics
 
+def save_model(model, param_dict):
+    experiment_name = param_dict.get("experiment_name", "default")
+    save_path = f"data/output_data/{experiment_name}/model"
+    model.save(save_path)
+
+def get_model_predictions(model, test_input):
+    predictions = model.predict(test_input, verbose=False)
+    return predictions 
+
+def print_model_info(final_metrics):
+    print("Final Metrics")
+    print(final_metrics) 
+
+def save_model_info(param_dict, predictions, test_output, final_metrics):
+    experiment_name = param_dict.get("experiment_name", "default")
+    save_path = f"data/output_data/{experiment_name}/"
+    np.save(f"{save_path}test_predictions", predictions)
+    np.save(f"{save_path}test_truth", test_output)
+    df = pd.DataFrame(final_metrics, index=[0])
+    df.to_csv(f"{save_path}final_metrics.csv")
 
 def run_experiment(param_dict, model, train_input, train_output, test_input, test_output):
     #First compile the model 
     model = compile_model(model)
+    #Run the training phase
     history, total_time = fit_model(param_dict, model, train_input, train_output)
+    #Save the model 
+    save_model(model, param_dict)
     print(f"Took {total_time} to run the model")
     #Next, evaluate the model 
     final_metrics = evaluate_model(model, test_input, test_output)
-    print("Final Metrics")
-    print(final_metrics)
+    #Get the predictions 
+    predictions = get_model_predictions(model, test_input)
+    #Save the info 
+    save_model_info(param_dict, predictions, test_output, final_metrics)
+
+    
 
 
 # @tf.function
