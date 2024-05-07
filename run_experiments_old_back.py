@@ -34,6 +34,9 @@ for device in gpu_devices:
 #And here:
 #https://github.com/tensorflow/tensorflow/issues/29799
 #Dice loss function taken directly from here: #https://stackoverflow.com/questions/59292992/tensorflow-2-custom-loss-no-gradients-provided-for-any-variable-error  
+#Dice loss function actually implemented from here: https://stackoverflow.com/questions/72195156/correct-implementation-of-dice-loss-in-tensorflow-keras 
+
+
 
 loss_dict = {
     "mape": tf.keras.losses.MeanAbsolutePercentageError(),
@@ -48,7 +51,7 @@ loss_dict = {
     "TrueNegatives": tf.keras.metrics.TrueNegatives(),
     "FalsePositives": tf.keras.metrics.FalsePositives(),
     "FalseNegatives":  tf.keras.metrics.FalseNegatives(),
-    "Dice": tf.keras.losses.Dice(),
+    #"Dice": tf.keras.losses.Dice(),
     #"F1Score": tf.keras.metrics.F1Score()
 }
 
@@ -65,12 +68,37 @@ loss_dict = {
 
 
 #https://stackoverflow.com/questions/59292992/tensorflow-2-custom-loss-no-gradients-provided-for-any-variable-error 
+# @tf.function
+# def dice_loss(y_true, y_pred):
+#     y_true = tf.cast(y_true, tf.float32)
+#     numerator = 2 * tf.reduce_sum(y_true * y_pred)
+#     denominator = tf.reduce_sum(y_true + y_pred)
+#     return 1 - numerator / denominator
+
+# @tf.function
+# def dice_loss(y_true, y_pred):
+#     #https://stackoverflow.com/questions/72195156/correct-implementation-of-dice-loss-in-tensorflow-keras 
+#     smooth = 100
+#     # Flatten
+#     y_true_f = tf.cast(tf.reshape(y_true, [-1]),'float32')
+#     y_pred_f = tf.cast(tf.reshape(y_pred > 0.5, [-1]),'float32')
+
+#     intersection = tf.reduce_sum(tf.math.multiply(y_true_f,y_pred_f))
+#     score = (2. * intersection + smooth) / (tf.reduce_sum(y_true_f) + tf.reduce_sum(y_pred_f) + smooth)
+#     return score
+
 @tf.function
 def dice_loss(y_true, y_pred):
-    y_true = tf.cast(y_true, tf.float32)
-    numerator = 2 * tf.reduce_sum(y_true * y_pred)
-    denominator = tf.reduce_sum(y_true + y_pred)
-    return 1 - numerator / denominator
+    #https://stackoverflow.com/questions/72195156/correct-implementation-of-dice-loss-in-tensorflow-keras
+    return 1 - dice_coef(y_true, y_pred)
+
+def dice_coef(y_true, y_pred, smooth=100):
+    #https://stackoverflow.com/questions/72195156/correct-implementation-of-dice-loss-in-tensorflow-keras        
+    y_true_f = K.flatten(y_true)
+    y_pred_f = K.flatten(y_pred)
+    intersection = K.sum(y_true_f * y_pred_f)
+    dice = (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
+    return dice
 
 # @tf.function
 # def dice_loss(y_true, y_pred):
@@ -81,13 +109,9 @@ def dice_loss(y_true, y_pred):
 #     return 1 - (2 * (K.sum(y_true * y_pred)+ K.epsilon()) / (K.sum(y_true) + K.sum(y_pred) + K.epsilon()))
 
 def compile_model(model):
-
-    #Try this? 
-
     model.compile(
         optimizer="adam",
-        #loss= dice_loss,
-        loss= loss_dict['Dice'],
+        loss= dice_loss,
         metrics=[loss_dict['BinaryAccuracy'], 
                 loss_dict['TruePositives'],
                 loss_dict['TrueNegatives'],
@@ -175,6 +199,13 @@ def save_model_info(param_dict, predictions, test_output, final_metrics):
     np.save(f"{save_path}test_truth", test_output)
     df = pd.DataFrame(final_metrics, index=[0])
     df.to_csv(f"{save_path}final_metrics.csv")
+    
+    predictions_2 = predictions.flatten()
+    test_output_2 = test_output.flatten()
+    pred_dict = {"predictions": predictions_2, "truth": test_output_2}
+    pred_df = pd.DataFrame(pred_dict)
+    pred_df.to_csv(f"{save_path}pred_v_truth_test_set.csv")
+
 
 def run_experiment(param_dict, model, train_input, train_output, test_input, test_output):
     #First compile the model 

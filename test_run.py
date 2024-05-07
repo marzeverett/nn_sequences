@@ -1,7 +1,7 @@
 import pandas as pd
 import data.input_data.lgwf_specific_data as lgwf_specific_data
 import models 
-import run_experiments
+import experiment_library
 
 param_dict =  {
         "index_key": "time_steps",
@@ -19,4 +19,4 @@ param_dict =  {
 train_input, train_output, test_input, test_output = lgwf_specific_data.get_train_and_test_data(param_dict)
 model = models.build_model(param_dict, train_input, train_output)
 
-run_experiments.run_experiment(param_dict, model, train_input, train_output, test_input, test_output)
+experiment_library.run_experiment(param_dict, model, train_input, train_output, test_input, test_output)

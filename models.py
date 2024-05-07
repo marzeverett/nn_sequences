@@ -50,6 +50,25 @@ def build_specific_model(model_name, model):
         model.add(layers.LSTM(64, return_sequences=False))
         model.add(layers.Dropout(0.2))
         model.add(layers.Dense(64, activation='relu',use_bias=True))
+
+    elif model_name == "model_2":
+        model.add(layers.LSTM(64, return_sequences=True))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(48, return_sequences=True))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(32, return_sequences=False))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.Dense(32, activation='relu',use_bias=True))
+
+     elif model_name == "model_3":
+        model.add(layers.LSTM(16, return_sequences=True))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(12, return_sequences=True))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(8, return_sequences=False))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.Dense(8, activation='relu',use_bias=True))
+
     return model 
 
 
