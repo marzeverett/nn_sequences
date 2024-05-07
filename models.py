@@ -60,7 +60,7 @@ def build_specific_model(model_name, model):
         model.add(layers.Dropout(0.2))
         model.add(layers.Dense(32, activation='relu',use_bias=True))
 
-     elif model_name == "model_3":
+    elif model_name == "model_3":
         model.add(layers.LSTM(16, return_sequences=True))
         model.add(layers.Dropout(0.2))
         model.add(layers.LSTM(12, return_sequences=True))
