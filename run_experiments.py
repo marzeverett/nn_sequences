@@ -47,7 +47,7 @@ loss_dict = {
     "TrueNegatives": tf.keras.metrics.TrueNegatives(),
     "FalsePositives": tf.keras.metrics.FalsePositives(),
     "FalseNegatives":  tf.keras.metrics.FalseNegatives(),
-    #"F1Score": tf.keras.metrics.F1Score()
+    "F1Score": tf.keras.metrics.F1Score()
 }
 
 
@@ -68,7 +68,7 @@ def compile_model(model):
 
     model.compile(
         optimizer="adam",
-        loss= "mse",
+        loss= loss_dict['F1Score']
         metrics=[loss_dict['BinaryAccuracy'], 
                 loss_dict['TruePositives'],
                 loss_dict['TrueNegatives'],
