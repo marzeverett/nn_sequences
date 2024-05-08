@@ -36,15 +36,20 @@ features = ['bc:57:29:02:14:51_temperature', 'bc:57:29:02:14:51_humidity', 'bc:5
 print(len(features))
 
 
-save_path = f"data/input_data/240_36_delta_mini/"
+save_path = f"data/input_data/240_36_delta/"
 train_input = np.load(f"{save_path}train_input.npy")
 train_output = np.load(f"{save_path}train_output.npy")
 test_input = np.load(f"{save_path}test_input.npy")
 test_output = np.load(f"{save_path}test_output.npy")
-#print(test_input.shape)
-#print(test_output.shape)
+print(train_input.shape)
+print(train_output.shape)
 
 print("Test")
-#print(test_input[1].shape)
-#print(train_input[0][0])
-#print(test_output[0])
+index = 142
+
+print(np.argmax(train_output>0.1))
+# print(train_input[index][0])
+print(train_output[index-50:index+50])
+# print(test_input[1].shape)
+# print(train_input[0][0])
+# print(test_output[0])

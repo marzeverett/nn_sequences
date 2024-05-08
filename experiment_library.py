@@ -116,7 +116,8 @@ def fit_model(param_dict, model, train_input, train_output):
         verbose=param_dict.get("verbose",  False),
         callbacks=callbacks,
         validation_split=0.2,
-        shuffle=False)
+        shuffle=True)
+        #shuffle=False)
     end_time = time.time()
     #Restore the best model
     save_path = f"data/output_data/{experiment_name}/"

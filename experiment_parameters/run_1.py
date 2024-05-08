@@ -1,7 +1,6 @@
 
 experiments =  {
-    #This run used the Dice Loss loss function. Should probably consider the binary cross entropy function
-    #In the future 
+    #This is using Binary Cross Entropy and the full dataset 
     "run_1": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
