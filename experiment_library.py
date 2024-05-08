@@ -37,7 +37,7 @@ loss_dict = {
     "mape": tf.keras.losses.MeanAbsolutePercentageError(),
     "mse": tf.keras.losses.MeanSquaredError(),
     "mae": tf.keras.losses.MeanAbsoluteError(),
-    "BinaryCrossentropy": tf.keras.losses.BinaryCrossentropy(),
+    "BinaryCrossentropy": tf.keras.losses.BinaryCrossentropy(from_logits=False),
     "CategoricalCrossentropy": tf.keras.losses.CategoricalCrossentropy(),
     "BinaryAccuracy": tf.keras.metrics.BinaryAccuracy(),
     "Precision": tf.keras.metrics.Precision(),
@@ -91,14 +91,15 @@ def build_callbacks(param_dict):
         save_best_only=True
     )
 
-    early_stop = tf.keras.callbacks.EarlyStopping(
-        monitor="val_loss",
-        #Change is here!
-        patience=10,
-        mode="min",
-        restore_best_weights=True,
-    )
-    return [save_best, early_stop]
+    # early_stop = tf.keras.callbacks.EarlyStopping(
+    #     monitor="val_loss",
+    #     #Change is here!
+    #     patience=10,
+    #     mode="min",
+    #     restore_best_weights=True,
+    # )
+    #return [save_best, early_stop]
+    return [save_best]
 
 
 def fit_model(param_dict, model, train_input, train_output):

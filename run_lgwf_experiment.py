@@ -6,23 +6,6 @@ import models
 import experiment_library
 
 
-
-param_dict =  {
-        "index_key": "time_steps",
-        "consequent_key": "delta_frost_events",
-        "epochs": 3,
-        "batch_size": 32, 
-        "sequence_limit": 240,
-        "sequence_offset": 36,
-        "model_name": "test_model",
-        "verbose": True,
-        "dataset_name": "240_36_delta",
-        "experiment_name": "test_experiment_1"
-    }
-
-
-
-
 experiment_list_file_name = sys.argv[1]
 experiments_list = importlib.import_module(f"experiment_parameters.{experiment_list_file_name}", package=None)
 
