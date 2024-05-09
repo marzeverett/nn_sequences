@@ -69,6 +69,41 @@ def build_specific_model(model_name, model):
         model.add(layers.Dropout(0.2))
         model.add(layers.Dense(8, activation='relu',use_bias=True))
 
+    elif model_name == "model_4":
+        model.add(layers.LSTM(512, return_sequences=True))
+        #model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(256, return_sequences=True))
+        model.add(layers.LSTM(128, return_sequences=True))
+        #model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(64, return_sequences=False))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.Dense(64, activation='relu',use_bias=True))
+
+    elif model_name == "model_5":
+        model.add(layers.LSTM(512, return_sequences=True))
+        #model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(256, return_sequences=True))
+        model.add(layers.LSTM(128, return_sequences=True))
+        #model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(64, return_sequences=False))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.Dense(64, activation='relu',use_bias=True))
+        model.add(layers.Dense(32, activation='relu',use_bias=True))
+        model.add(layers.Dense(16, activation='relu',use_bias=True))
+
+    elif model_name == "model_6":
+        model.add(layers.LSTM(1024, return_sequences=True))
+        model.add(layers.LSTM(512, return_sequences=True))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(256, return_sequences=True))
+        model.add(layers.LSTM(128, return_sequences=True))
+        model.add(layers.Dropout(0.2))
+        model.add(layers.LSTM(64, return_sequences=False))
+        #model.add(layers.Dropout(0.2))
+        model.add(layers.Dense(64, activation='relu',use_bias=True))
+        model.add(layers.Dense(32, activation='relu',use_bias=True))
+        model.add(layers.Dense(16, activation='relu',use_bias=True))
+
     return model 
 
 

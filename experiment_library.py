@@ -150,14 +150,16 @@ def print_model_info(final_metrics):
     print("Final Metrics")
     print(final_metrics) 
 
-def save_model_info(param_dict, predictions, test_output, final_metrics):
+def save_model_info(param_dict, predictions, test_output, final_metrics, history):
     experiment_name = param_dict.get("experiment_name", "default")
     save_path = f"data/output_data/{experiment_name}/"
     np.save(f"{save_path}test_predictions", predictions)
     np.save(f"{save_path}test_truth", test_output)
     df = pd.DataFrame(final_metrics, index=[0])
     df.to_csv(f"{save_path}final_metrics.csv")
-    
+    #Save the history
+    history_df = pd.DataFrame(history.history)
+    history_df.to_csv(f"{save_path}model_history.csv")
     predictions_2 = predictions.flatten()
     test_output_2 = test_output.flatten()
     pred_dict = {"predictions": predictions_2, "truth": test_output_2}
@@ -178,5 +180,5 @@ def run_experiment(param_dict, model, train_input, train_output, test_input, tes
     #Get the predictions 
     predictions = get_model_predictions(model, test_input)
     #Save the info 
-    save_model_info(param_dict, predictions, test_output, final_metrics)
+    save_model_info(param_dict, predictions, test_output, final_metrics, history)
 

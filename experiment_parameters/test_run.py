@@ -1,9 +1,9 @@
 
 experiments =  {
-    "testing_3": {
+    "testing_4": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
-        "epochs": 3,
+        "epochs": 1,
         "batch_size": 32, 
         "sequence_limit": 240,
         "sequence_offset": 36,
