@@ -1,8 +1,9 @@
 
 experiments =  {
-    #This is using Binary Cross Entropy and the full dataset 
-    #This round got TOTALLY killed by bad naming in round 3, unfortunately 
-    "run_1": {
+    #Same as round 1 EXCEPT
+    #Monitoring val recall 
+    #Dropping instead of filling everything 
+    "run_25": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 100,
@@ -13,7 +14,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_2": {
+    "run_26": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 100,
@@ -24,7 +25,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_3": {
+    "run_27": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 100,
@@ -35,7 +36,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_4": {
+    "run_28": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 100,
@@ -46,7 +47,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_5": {
+    "run_29": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 100,
@@ -57,7 +58,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_6": {
+    "run_30": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 100,
@@ -68,7 +69,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_7": {
+    "run_31": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 50,
@@ -79,7 +80,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_8": {
+    "run_32": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 50,
@@ -90,7 +91,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_9": {
+    "run_33": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 50,
@@ -101,7 +102,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_10": {
+    "run_34": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 200,
@@ -112,7 +113,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_11": {
+    "run_35": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 200,
@@ -123,7 +124,7 @@ experiments =  {
         "verbose": False,
         "dataset_name": "240_36_delta",
     },
-    "run_12": {
+    "run_36": {
         "index_key": "time_steps",
         "consequent_key": "delta_frost_events",
         "epochs": 200,

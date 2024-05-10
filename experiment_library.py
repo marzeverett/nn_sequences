@@ -86,8 +86,11 @@ def build_callbacks(param_dict):
     save_best = tf.keras.callbacks.ModelCheckpoint(
         filepath=save_path,
         save_weights_only=True,
-        monitor='val_loss',
-        mode="min",
+        #Change is here!
+        monitor='val_recall',
+        mode="max",
+        # monitor='val_loss',
+        # mode="min",
         save_best_only=True
     )
 
